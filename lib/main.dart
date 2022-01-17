@@ -40,9 +40,11 @@ class _MyHomePageState extends State<MyHomePage> {
             icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (_)=>AddBreakdown()));
-            }, 
+            },
           )
         ],
+        elevation: 0,
+        backgroundColor: Theme.of(context).canvasColor,
       ),
       body: Center(
         child: Column(
@@ -51,7 +53,6 @@ class _MyHomePageState extends State<MyHomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
-              
           ],
         ),
       ),
