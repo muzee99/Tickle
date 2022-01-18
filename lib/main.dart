@@ -13,7 +13,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Tickle',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        // primarySwatch: Colors.blue,
+        primaryColor: const Color(0xFFFFCAAF),
+        textTheme: ThemeData.light().textTheme.copyWith(
+          bodyText1: const TextStyle(color: Color.fromRGBO(20, 51, 51, 1), fontWeight: FontWeight.bold)
+        ),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFFFFCAAF),
+          elevation: 0,
+        ),
       ),
       home: const MyHomePage(title: 'Tickle'),
     );
