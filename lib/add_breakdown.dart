@@ -11,7 +11,9 @@ class AddBreakdown extends StatelessWidget{
         title: const Text("Add Breakdown"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_rounded),
-          onPressed: (){Navigator.pop(context);},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
       body: Column(
@@ -81,7 +83,7 @@ class DisplayState extends State<Display> {
         child: Container(
           color: Theme
               .of(context)
-              .primaryColor,
+              .canvasColor,
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: views,
@@ -178,7 +180,7 @@ class KeyboardKey extends StatelessWidget {
       ),
       color: Theme
           .of(context)
-          .scaffoldBackgroundColor,
+          .primaryColor,
       onPressed: () {
         _addKey(_keyValue);
       },
