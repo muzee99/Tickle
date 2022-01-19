@@ -52,7 +52,7 @@ class DisplayState extends State<Display> {
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       fontSize: 40.0,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ))
             ],
@@ -70,7 +70,7 @@ class DisplayState extends State<Display> {
                     textAlign: TextAlign.right,
                     style: const TextStyle(
                       fontSize: 40.0,
-                      color: Colors.white,
+                      color: Colors.black,
                     ),
                   ))
             ],
@@ -81,9 +81,7 @@ class DisplayState extends State<Display> {
     return Expanded(
         flex: 2,
         child: Container(
-          color: Theme
-              .of(context)
-              .canvasColor,
+          color: Theme.of(context).canvasColor,
           padding: const EdgeInsets.all(16.0),
           child: Column(
             children: views,
@@ -96,25 +94,32 @@ void _addKey(String key) {
   var _expr = _displayState._expression;
   var _result = '';
   if (_displayState._result.isNotEmpty) {
+    print("if");
     _expr = '';
     _result = '';
   }
-
+  // 연산기호 입력
   if (operators.contains(key)) {
     // Handle as an operator
     if (_expr.length > 0 && operators.contains(_expr[_expr.length - 1])) {
       _expr = _expr.substring(0, _expr.length - 1);
     }
     _expr += key;
-  } else if (digits.contains(key)) {
+  } 
+  // 숫자 입력
+  else if (digits.contains(key)) {
     // Handle as an operand
     _expr += key;
-  } else if (key == 'C') {
+  } 
+  // C입력
+  else if (key == 'C') {
     // Delete last character
     if (_expr.length > 0) {
       _expr = _expr.substring(0, _expr.length - 1);
     }
-  } else if (key == '=') {
+  } 
+  // 등호 입력
+  else if (key == '=') {
     try {
       var parser = const Parser();
       _result = parser.parseExpression(_expr).toString();
@@ -169,18 +174,18 @@ class KeyboardKey extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       child: Text(
         _keyValue,
-        style: const TextStyle(
+      ),
+      style: TextButton.styleFrom(
+        primary: Colors.black,
+        backgroundColor: Theme.of(context).primaryColor,
+        textStyle: const TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 26.0,
-          color: Colors.black,
-        ),
+        )
       ),
-      color: Theme
-          .of(context)
-          .primaryColor,
       onPressed: () {
         _addKey(_keyValue);
       },
