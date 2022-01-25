@@ -14,11 +14,13 @@ class AddBreakdown extends StatelessWidget{
           },
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Text('add_breakdown')
-        ],
-      ),
-    );
+      body: Center(
+        child:Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text('add_breakdown')
+          ],
+      ),)
+    );  
   }
 }

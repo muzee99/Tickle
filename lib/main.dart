@@ -51,8 +51,6 @@ class _MyHomePageState extends State<MyHomePage> {
             },
           )
         ],
-        elevation: 0,
-        backgroundColor: Theme.of(context).canvasColor,
       ),
       body: Center(
         child: Column(
