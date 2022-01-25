@@ -18,7 +18,7 @@ class AddBreakdown extends StatelessWidget{
         child:Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('add_breakdown')
+            const Text('Add Breakdown')
           ],
       ),)
     );  
