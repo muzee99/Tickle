@@ -15,12 +15,21 @@ class AddBreakdown extends StatelessWidget{
         ),
       ),
       body: Center(
-        child:Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('Add Breakdown')
-          ],
-      ),)
+        child: Form(
+          child: Column(
+            children: [
+              TextFormField(
+                
+              )
+            ],
+          ))
+        // child:Column(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: <Widget>[
+        //     const Text('Add Breakdown')
+        //   ],
+        // ),
+      )
     );  
   }
 }
