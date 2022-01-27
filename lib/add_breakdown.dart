@@ -2,6 +2,38 @@ import 'package:flutter/material.dart';
 
 class AddBreakdown extends StatelessWidget{
   AddBreakdown({Key? key}) : super(key: key);
+
+  final formKey = GlobalKey<FormState>();
+
+    renderTextFormField({
+    required String label,
+    required FormFieldSetter? onSaved,
+    required FormFieldValidator? validator,
+  }) {
+    assert(onSaved != null);
+    assert(validator != null);
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text(
+              label,
+              style: const TextStyle(
+                fontSize: 12.0,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+        TextFormField(
+          onSaved: onSaved,
+          validator: validator,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,13 +48,22 @@ class AddBreakdown extends StatelessWidget{
       ),
       body: Center(
         child: Form(
-          child: Column(
-            children: [
-              TextFormField(
-                
-              )
-            ],
-          ))
+          key: formKey,
+          child: Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                renderTextFormField(
+                label: '내역',
+                onSaved: (val) {},
+                validator: (val) {
+                  return null;
+                },
+              ),
+              ]
+            ),
+          )
+        )
         // child:Column(
         //   mainAxisAlignment: MainAxisAlignment.center,
         //   children: <Widget>[
