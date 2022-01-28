@@ -6,33 +6,33 @@ class AddBreakdown extends StatelessWidget{
   final formKey = GlobalKey<FormState>();
 
     renderTextFormField({
-    required String label,
-    required FormFieldSetter? onSaved,
-    required FormFieldValidator? validator,
-  }) {
-    assert(onSaved != null);
-    assert(validator != null);
+      required String label,
+      required FormFieldSetter? onSaved,
+      required FormFieldValidator? validator,
+    }) {
+      assert(onSaved != null);
+      assert(validator != null);
 
-    return Column(
-      children: [
-        Row(
-          children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: 12.0,
-                fontWeight: FontWeight.w700,
+      return Column(
+        children: [
+          Row(
+            children: [
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 12.0,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
-            ),
-          ],
-        ),
-        TextFormField(
-          onSaved: onSaved,
-          validator: validator,
-        ),
-      ],
-    );
-  }
+            ],
+          ),
+          TextFormField(
+            onSaved: onSaved,
+            validator: validator,
+          ),
+        ],
+      );
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +50,7 @@ class AddBreakdown extends StatelessWidget{
         child: Form(
           key: formKey,
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
                 renderTextFormField(
@@ -59,6 +59,15 @@ class AddBreakdown extends StatelessWidget{
                 validator: (val) {
                   return null;
                 },
+                ),
+                OutlinedButton(
+      onPressed: () {},
+      child: const Text(
+        '저장하기!',
+        style: TextStyle(
+          color: Colors.white,
+        ),
+      ),
               ),
               ]
             ),
