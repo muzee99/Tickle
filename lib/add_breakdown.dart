@@ -7,12 +7,10 @@ class AddBreakdown extends StatelessWidget{
 
     renderTextFormField({
       required String label,
-      required FormFieldSetter? onSaved,
-      required FormFieldValidator? validator,
-    }) {
-      assert(onSaved != null);
-      assert(validator != null);
-
+      required FormFieldSetter onSaved,
+      required FormFieldValidator validator,
+    }) 
+    {
       return Column(
         children: [
           Row(
@@ -47,31 +45,49 @@ class AddBreakdown extends StatelessWidget{
         ),
       ),
       body: Center(
-        child: Form(
-          key: formKey,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                renderTextFormField(
-                label: '내역',
-                onSaved: (val) {},
-                validator: (val) {
-                  return null;
-                },
+        child: Column(
+          children: [
+            Form(
+              key: formKey,
+              child: Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      TextFormField(
+                        onSaved: (val) {},
+                        validator: (val) {
+                          // return null;
+                          return null;
+                        },
+                      ),
+                    ]
+                  ),
                 ),
-                OutlinedButton(
-      onPressed: () {},
-      child: const Text(
-        '저장하기!',
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),
-              ),
-              ]
+              )
             ),
-          )
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: TextButton(
+                child: const Text(
+                  '지출내역 추가하기',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                style: TextButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+                onPressed: () async {
+                  if(formKey.currentState!.validate()) {
+                    print("validate()");
+                  }
+                },
+              ),
+            ),
+          ],
         )
         // child:Column(
         //   mainAxisAlignment: MainAxisAlignment.center,
