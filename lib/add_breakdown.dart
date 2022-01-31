@@ -13,21 +13,33 @@ class AddBreakdown extends StatelessWidget{
     {
       return Column(
         children: [
-          Row(
+          Container(
+            padding: const EdgeInsets.all(15),
+            child: Row(
             children: [
-              Text(
-                label,
-                style: const TextStyle(
-                  fontSize: 12.0,
-                  fontWeight: FontWeight.w700,
+              // Text(
+              //   label,
+              //   style: const TextStyle(
+              //     fontSize: 15.0,
+              //     fontWeight: FontWeight.w600,
+              //   ),
+              // ),
+              Expanded(
+                // padding: const EdgeInsets.all(10.0),
+                child: TextFormField(
+                  decoration: InputDecoration(
+                    labelText: 'labelText',
+                    // suffixText: 'suffixText',
+                    hintText: 'hintText',
+                    prefixText: 'prefixText'
+                  ),
+                  onSaved: onSaved,
+                  validator: validator,
                 ),
               ),
             ],
-          ),
-          TextFormField(
-            onSaved: onSaved,
-            validator: validator,
-          ),
+          ),)
+
         ],
       );
     }
@@ -54,7 +66,8 @@ class AddBreakdown extends StatelessWidget{
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TextFormField(
+                      renderTextFormField(
+                        label: '내역',
                         onSaved: (val) {},
                         validator: (val) {
                           // return null;
@@ -74,7 +87,7 @@ class AddBreakdown extends StatelessWidget{
                   '지출내역 추가하기',
                   style: TextStyle(
                     color: Colors.black,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
                 style: TextButton.styleFrom(
