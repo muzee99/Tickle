@@ -98,7 +98,6 @@ class TodoProvider {
   }
 
   Future<List<Todo>> todoItems(String table) async {
-    print(table);
     final Database db = await database;
     final List<Map<String, dynamic>> maps = await db.query(table);
     if(!maps.isNotEmpty) return [];
