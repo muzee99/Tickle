@@ -1,9 +1,47 @@
 import 'package:flutter/material.dart';
 
-import 'parser.dart';
-
 class AddBreakdown extends StatelessWidget{
   AddBreakdown({Key? key}) : super(key: key);
+
+    // renderTextFormField({
+    //   required String label,
+    //   required FormFieldSetter onSaved,
+    //   required FormFieldValidator validator,
+    // }) 
+    // {
+    //   return Column(
+    //     children: [
+    //       Container(
+    //         padding: const EdgeInsets.all(15),
+    //         child: Row(
+    //         children: [
+    //           // Text(
+    //           //   label,
+    //           //   style: const TextStyle(
+    //           //     fontSize: 15.0,
+    //           //     fontWeight: FontWeight.w600,
+    //           //   ),
+    //           // ),
+    //           Expanded(
+    //             // padding: const EdgeInsets.all(10.0),
+    //             child: TextFormField(
+    //               decoration: const InputDecoration(
+    //                 labelText: 'labelText',
+    //                 // suffixText: 'suffixText',
+    //                 hintText: 'hintText',
+    //                 // prefixText: 'prefixText'
+    //               ),
+    //               onSaved: onSaved,
+    //               validator: validator,
+    //             ),
+    //           ),
+    //         ],
+    //       ),)
+
+    //     ],
+    //   );
+    // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,177 +49,182 @@ class AddBreakdown extends StatelessWidget{
         title: const Text("Add Breakdown"),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_rounded),
-          onPressed: (){Navigator.pop(context);},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
       ),
-      body: Column(
-        children: <Widget>[
-          Display(),
-          Keyboard(),
-        ],
-      ),
-    );
+      body: BreakdownPage(),
+    );  
   }
 }
 
-var _displayState = DisplayState();
-
-class Display extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return _displayState;
-  }
-}
-
-class DisplayState extends State<Display> {
-  var _expression = '';
-  var _result = '';
+class BreakdownPage extends StatefulWidget {
+  const BreakdownPage({Key? key}) : super(key:key);
 
   @override
-  Widget build(BuildContext context) {
-    var views = <Widget>[
-      Expanded(
-          flex: 1,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                  child: Text(
-                    _expression,
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      fontSize: 40.0,
-                      color: Colors.white,
-                    ),
-                  ))
-            ],
-          )),
-    ];
-
-    if (_result.isNotEmpty) {
-      views.add(Expanded(
-          flex: 1,
-          child: Row(
-            children: <Widget>[
-              Expanded(
-                  child: Text(
-                    _result,
-                    textAlign: TextAlign.right,
-                    style: const TextStyle(
-                      fontSize: 40.0,
-                      color: Colors.white,
-                    ),
-                  ))
-            ],
-          )),
-      );
-    }
-
-    return Expanded(
-        flex: 2,
-        child: Container(
-          color: Theme
-              .of(context)
-              .primaryColor,
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: views,
-          ),
-        ));
-  }
+  State<BreakdownPage> createState() => _BreakdownPageState();
 }
 
-void _addKey(String key) {
-  var _expr = _displayState._expression;
-  var _result = '';
-  if (_displayState._result.isNotEmpty) {
-    _expr = '';
-    _result = '';
-  }
+class _BreakdownPageState extends State<BreakdownPage> {
 
-  if (operators.contains(key)) {
-    // Handle as an operator
-    if (_expr.length > 0 && operators.contains(_expr[_expr.length - 1])) {
-      _expr = _expr.substring(0, _expr.length - 1);
-    }
-    _expr += key;
-  } else if (digits.contains(key)) {
-    // Handle as an operand
-    _expr += key;
-  } else if (key == 'C') {
-    // Delete last character
-    if (_expr.length > 0) {
-      _expr = _expr.substring(0, _expr.length - 1);
-    }
-  } else if (key == '=') {
-    try {
-      var parser = const Parser();
-      _result = parser.parseExpression(_expr).toString();
-    } on Error {
-      _result = 'Error';
-    }
-  }
-  // ignore: invalid_use_of_protected_member
-  _displayState.setState(() {
-    _displayState._expression = _expr;
-    _displayState._result = _result;
-  });
-}
-
-class Keyboard extends StatelessWidget {
+  final formKey = GlobalKey<FormState>();
+  TimeOfDay time = const TimeOfDay(hour: 0, minute: 0);
+  DateTime _dateTime = DateTime(2022);
+  final _cateList = ['식당', '카페', '베이커리', '서점'];
+  var _selectedCate = '식당';
+  final _tagList = {
+    '용돈' : {'isSelected': false},
+    '가족' : {'isSelected': false},
+    '선물' : {'isSelected': false},
+    '취미' : {'isSelected': false},
+    '여행' : {'isSelected': false},
+  };
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        flex: 4,
-        child: Center(
-            child:
-            AspectRatio(
-              aspectRatio: 1.0, // To center the GridView
-              child: GridView.count(
-                crossAxisCount: 4,
-                childAspectRatio: 1.0,
-                padding: const EdgeInsets.all(4.0),
-                mainAxisSpacing: 4.0,
-                crossAxisSpacing: 4.0,
-                children: <String>[
-                  // @formatter:off
-                  '7', '8', '9', '/',
-                  '4', '5', '6', '*',
-                  '1', '2', '3', '-',
-                  'C', '0', '=', '+',
-                  // @formatter:on
-                ].map((key) {
-                  return GridTile(
-                    child: KeyboardKey(key),
-                  );
-                }).toList(),
+    return Center(
+        child: Column(
+          children: [
+            Form(
+              key: formKey,
+              child: Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Column(children: [
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              labelText: '내역2',
+                              hintText: 'hintText',
+                              // focusColor: Colors.black12,
+                              // fillColor: Colors.red,
+                              // hoverColor: Colors.orange,
+                            ),
+                            onSaved: (val) {},
+                            validator: (val) {
+                              // return null;
+                            },
+                          ),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              labelText: '금액',
+                              // suffixText: 'suffixText',
+                              hintText: 'hintText',
+                              // prefixText: 'prefixText'
+                            ),
+                            onSaved: (val) {},
+                            validator: (val) {
+                              // return null;
+                            },
+                          ),
+                          Container(
+                            padding: const EdgeInsets.all(10.0),
+                            child:
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            // crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [ TextButton(
+                              child: Text('${_dateTime.year} - ${_dateTime.month} - ${_dateTime.day}',
+                                style: const TextStyle(fontSize: 25, color: Colors.black54),
+                              ), 
+                              onPressed: () async {
+                                DateTime? newDate = await showDatePicker(
+                                  context: context, 
+                                  initialDate: _dateTime, 
+                                  firstDate: DateTime(1900), 
+                                  lastDate: DateTime(3000),
+                                );
+                                if(newDate != null) {
+                                  setState(() {
+                                    _dateTime = newDate;
+                                  });
+                                }
+                              },
+                              // style: TextButton.styleFrom(
+                                
+                              //   backgroundColor: Theme.of(context).primaryColor,
+                              // ),
+                            ),
+                            TextButton(
+                              child: Text('${time.hour.toString()}:${time.minute.toString()}',
+                                style: const TextStyle(fontSize: 25, color: Colors.black54),
+                              ), 
+                              onPressed: () async {
+                                TimeOfDay? newTime = await showTimePicker(context: context, initialTime: time);
+                                if(newTime != null) {
+                                  setState(() {
+                                    time = newTime;
+                                  });
+                                }
+                              },
+                            ),
+                          ],)
+
+                          ),
+                          DropdownButtonFormField(
+                            value: _selectedCate,
+                            items: _cateList.map(
+                              (item) {
+                                return DropdownMenuItem(value:item, child: Text(item));
+                              }
+                            ).toList(),
+                            onChanged: (String? item) {
+                              setState(() {
+                                _selectedCate = item!;
+                              });
+                            },
+                          ),
+                          
+
+                          // Row(
+                          //   children: [
+                          //     List.generate(_tagList.length, (index) {
+
+                          //     })
+                          //     // _tagList.map((tag) {
+                          //     //   return ChoiceChip(label: Text(tag), selected: selected)
+                          //     // }))
+                          //   ],
+                          // )
+                        ],)
+                      ),
+                    ]
+                  ),
+                ),
+              )
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 50,
+              child: TextButton(
+                child: const Text(
+                  '지출내역 추가하기',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                style: TextButton.styleFrom(
+                  backgroundColor: Theme.of(context).primaryColor,
+                ),
+                onPressed: () async {
+                  if(formKey.currentState!.validate()) {
+                    print("validate()");
+                  }
+                },
               ),
-            )
-        ));
-  }
-}
-
-class KeyboardKey extends StatelessWidget {
-  KeyboardKey(this._keyValue);
-
-  final _keyValue;
-
-  @override
-  Widget build(BuildContext context) {
-    return FlatButton(
-      child: Text(
-        _keyValue,
-        style: const TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 26.0,
-          color: Colors.black,
-        ),
-      ),
-      color: Theme
-          .of(context)
-          .scaffoldBackgroundColor,
-      onPressed: () {
-        _addKey(_keyValue);
-      },
-    );
+            ),
+          ],
+        )
+        // child:Column(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children: <Widget>[
+        //     const Text('Add Breakdown')
+        //   ],
+        // ),
+      );
   }
 }
