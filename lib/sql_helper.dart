@@ -34,6 +34,30 @@ class Todo {
   }
 }
 
+class CreditCard {
+  late int? id;
+  late String cardNum;
+  late int current;
+
+  CreditCard({this.id, required this.cardNum, required this.current});
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic> {
+      columnId: id,
+      columnContent: cardNum,
+      columnIsDone: current,
+    };
+    return map;
+  }
+
+  CreditCard.fromMap(Map<String, dynamic> map) {
+    id = map[columnId];
+    cardNum = map[columnContent];
+    current = map[columnIsDone];
+    debugPrint('$id, $cardNum, $current');
+  }
+}
+
 class TodoProvider {
   late Database _database;
 
