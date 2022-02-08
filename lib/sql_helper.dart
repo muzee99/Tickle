@@ -1,14 +1,25 @@
 import 'dart:async';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter/foundation.dart';
 
 const String tableName = 'breakdown';
+const String tableCard = 'creditCard';
+const String tableBreakdown = 'breakdown';
 const String bmTableName = 'bookmark';
 const String columnId = 'id';
 const String columnContent = 'content';
 const String columnIsDone = 'isDone';
+const String columnCardName = 'cardName';
+const String columnBankName = 'bankName';
+const String columnbalance = 'balance';
+const String columnCategory = 'cagegory';
+const String columnPrice = 'price';
+const String columnIsSpend = 'isSpend';
+const String columnMethodID = 'methodID';
+const String columnDate = 'date';
 
 class Todo {
   late int? id;
@@ -36,25 +47,64 @@ class Todo {
 
 class CreditCard {
   late int? id;
-  late String cardNum;
-  late int current;
+  late String cardName;
+  late String bankName;
+  late int balance;
 
-  CreditCard({this.id, required this.cardNum, required this.current});
+  CreditCard({this.id, required this.cardName, required this.bankName, required this.balance});
 
   Map<String, dynamic> toMap() {
     var map = <String, dynamic> {
       columnId: id,
-      columnContent: cardNum,
-      columnIsDone: current,
+      columnCardName: cardName,
+      columnBankName: bankName,
+      columnIsDone: balance,
     };
     return map;
   }
 
   CreditCard.fromMap(Map<String, dynamic> map) {
     id = map[columnId];
-    cardNum = map[columnContent];
-    current = map[columnIsDone];
-    debugPrint('$id, $cardNum, $current');
+    cardName = map[columnCardName];
+    bankName = map[columnBankName];
+    balance = map[columnIsDone];
+    debugPrint('$id, $cardName, $bankName, $balance');
+  }
+}
+
+class Breakdown {
+  late int? id;
+  late String content;
+  late DateTime date;
+  late TimeOfDay time;
+  late String category;
+  late String tag;
+  late int price;
+  late int isSpend;
+  late int methodID;
+
+  Breakdown({this.id, required this.content, required this.category, required this.price, required this.isSpend, required this.methodID});
+
+  Map<String, dynamic> toMap() {
+    var map = <String, dynamic> {
+      columnId: id,
+      columnCardName: content,
+      columnBankName: category,
+      columnPrice: price,
+      columnIsSpend: isSpend,
+      columnMethodID: methodID,
+    };
+    return map;
+  }
+
+  Breakdown.fromMap(Map<String, dynamic> map) {
+    id = map[columnId];
+    content = map[columnCardName];
+    category = map[columnBankName];
+    price = map[columnIsDone];
+    isSpend = map[columnIsSpend];
+    methodID = map[columnMethodID];
+    debugPrint('$id, $content, $category, $price, $isSpend, $methodID');
   }
 }
 
@@ -67,7 +117,7 @@ class TodoProvider {
   }
 
   initDB() async {
-    String path = join(await getDatabasesPath(), 'todo_database3.db');
+    String path = join(await getDatabasesPath(), 'tickle_database.db');
 
     return await openDatabase(
       path,

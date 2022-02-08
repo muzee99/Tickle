@@ -70,7 +70,7 @@ class _BreakdownPageState extends State<BreakdownPage> {
 
   final formKey = GlobalKey<FormState>();
   TimeOfDay time = const TimeOfDay(hour: 0, minute: 0);
-  DateTime _dateTime = DateTime(2022);
+  DateTime _dateTime = DateTime.now();
   final _cateList = ['식당', '카페', '베이커리', '서점'];
   var _selectedCate = '식당';
   final _tagList = {
