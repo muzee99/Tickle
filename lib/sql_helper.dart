@@ -14,7 +14,7 @@ const String columnContent = 'content';
 const String columnIsDone = 'isDone';
 const String columnCardName = 'cardName';
 const String columnBankName = 'bankName';
-const String columnbalance = 'balance';
+const String columnBalance = 'balance';
 const String columnCategory = 'cagegory';
 const String columnPrice = 'price';
 const String columnIsSpend = 'isSpend';
@@ -67,7 +67,7 @@ class CreditCard {
     id = map[columnId];
     cardName = map[columnCardName];
     bankName = map[columnBankName];
-    balance = map[columnIsDone];
+    balance = map[columnBalance];
     debugPrint('$id, $cardName, $bankName, $balance');
   }
 }
@@ -108,7 +108,7 @@ class Breakdown {
   }
 }
 
-class TodoProvider {
+class DBProvider {
   late Database _database;
 
   Future<Database> get database async{
@@ -124,19 +124,20 @@ class TodoProvider {
       version: 1,
       onCreate: (db, version) async {
         await db.execute('''
-        CREATE TABLE $tableName(
+        CREATE TABLE $tableCard(
           $columnId INTEGER PRIMARY KEY AUTOINCREMENT, 
-          $columnContent TEXT NOT NULL,
-          $columnIsDone INTEGER NOT NULL
+          $columnCardName TEXT NOT NULL,
+          $columnBankName TEXT NOT NULL,
+          $columnBalance INTEGER NOT NULL
           )''',
         );
-        await db.execute('''
-          CREATE TABLE $bmTableName(
-            $columnId INTEGER PRIMARY KEY AUTOINCREMENT, 
-            $columnContent TEXT NOT NULL,
-            $columnIsDone INTEGER NOT NULL
-            )''',
-        );
+        // await db.execute('''
+        //   CREATE TABLE $bmTableName(
+        //     $columnId INTEGER PRIMARY KEY AUTOINCREMENT, 
+        //     $columnContent TEXT NOT NULL,
+        //     $columnIsDone INTEGER NOT NULL
+        //     )''',
+        // );
       },
       onUpgrade: (db, oldVersion, newVersion){}
     );
