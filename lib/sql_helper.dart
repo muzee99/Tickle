@@ -85,7 +85,7 @@ class Breakdown {
 
   Breakdown({this.id, required this.content, required this.category, required this.price, required this.isSpend, required this.methodID});
 
-  Map<String, dynamic> toMap() {
+Map<String, dynamic> toMap() {
     var map = <String, dynamic> {
       columnId: id,
       columnCardName: content,
@@ -131,13 +131,17 @@ class DBProvider {
           $columnBalance INTEGER NOT NULL
           )''',
         );
-        // await db.execute('''
-        //   CREATE TABLE $bmTableName(
-        //     $columnId INTEGER PRIMARY KEY AUTOINCREMENT, 
-        //     $columnContent TEXT NOT NULL,
-        //     $columnIsDone INTEGER NOT NULL
-        //     )''',
-        // );
+        await db.execute('''
+          CREATE TABLE $tableBreakdown(
+            $columnId INTEGER PRIMARY KEY AUTOINCREMENT, 
+            $columnContent TEXT NOT NULL,
+            $columnCategory TEXT NOT NULL,
+            $columnContent TEXT NOT NULL,
+            $columnPrice INTEGER NOT NULL
+            $columnIsSpend INTEGER NOT NULL
+            $columnMethodID INTEGER NOT NULL
+            )''',
+        );
       },
       onUpgrade: (db, oldVersion, newVersion){}
     );
