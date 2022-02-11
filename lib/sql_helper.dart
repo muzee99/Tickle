@@ -107,7 +107,7 @@ Map<String, dynamic> toMap() {
     debugPrint('$id, $content, $category, $price, $isSpend, $methodID');
   }
 }
-
+//
 class DBProvider {
   late Database _database;
 
